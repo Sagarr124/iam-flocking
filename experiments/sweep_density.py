@@ -147,8 +147,11 @@ def run_density_experiment(
     return results
 
 
-def plot_density_results(results, save_path="results/density_experiment.png"):
+def plot_density_results(results, save_path="results/density_experiment.svg"):
     """Plot density change experiment results."""
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.serif'] = ['Libertinus Serif']
+
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
     visibility_values = results["visibility_values"]
@@ -233,7 +236,7 @@ def plot_density_results(results, save_path="results/density_experiment.png"):
 
     plt.tight_layout()
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    plt.savefig(save_path, format="svg", bbox_inches="tight")
     print(f"Plot saved to {save_path}")
 
     return fig
@@ -294,11 +297,11 @@ def print_density_summary(results):
         print(f"    Recovery ratio: {data['recovery_ratio']:.3f}")
 
         if data["recovery_ratio"] > 0.9:
-            print(f"    Status: ROBUST ✓")
+            print(f"    Status: ROBUST [OK]")
         elif data["recovery_ratio"] > 0.5:
             print(f"    Status: PARTIAL RECOVERY")
         else:
-            print(f"    Status: FRAGMENTED ✗")
+            print(f"    Status: FRAGMENTED [FAIL]")
 
     print("=" * 60)
 

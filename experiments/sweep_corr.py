@@ -5,7 +5,7 @@ This module extends the basic sweep to include velocity correlation analysis,
 which measures information transfer through the flock (as per Ballerini et al.).
 
 The correlation length ξ represents how far information (velocity fluctuations)
-propagates through the group - a key indicator of collective behavior.
+propagates through the group - a key indicator of collective behaviour.
 """
 
 import csv
@@ -33,7 +33,7 @@ def run_sweep(n_ranges=25, max_range=60, n_trials=5, warmup_steps=400):
     Run parameter sweep with correlation length analysis.
 
     The correlation length ξ is particularly important because:
-    - High ξ indicates strong collective behavior (information travels far)
+    - High ξ indicates strong collective behaviour (information travels far)
     - Low ξ indicates poor coordination (local interactions only)
     - The relationship between ξ and visibility reveals how metric limits
       affect the topological rule's effectiveness
@@ -147,8 +147,11 @@ def export_results_csv(results, filename="results/sweep_corr_data.csv"):
     print(f"Data exported to {filename}")
 
 
-def plot_results(results, save_path="results/sweep_results_corr.png"):
+def plot_results(results, save_path="results/sweep_results_corr.svg"):
     """Generate visualization with correlation length analysis."""
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.serif'] = ['Libertinus Serif']
+
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
     sensing_ranges = results["sensing_ranges"]
@@ -213,7 +216,7 @@ def plot_results(results, save_path="results/sweep_results_corr.png"):
     )
     ax2.legend()
 
-    # Plot 3: Normalized Correlation (ξ / L)
+    # Plot 3: Normalised Correlation (ξ / L)
     ax3 = axes[2]
     normalized_corr = results["corr_mean"] / Config.WIDTH
     normalized_std = results["corr_std"] / Config.WIDTH
@@ -227,7 +230,7 @@ def plot_results(results, save_path="results/sweep_results_corr.png"):
         capsize=3,
     )
     ax3.set_xlabel("Metric Sensing Range (R_vis)")
-    ax3.set_ylabel("ξ / L (Normalized Correlation Length)")
+    ax3.set_ylabel("ξ / L (Normalised Correlation Length)")
     ax3.set_title("Scale-Free Correlation Measure")
     ax3.grid(True, alpha=0.3)
     ax3.axhline(y=0.5, color="gray", linestyle="--", alpha=0.5)
@@ -241,7 +244,7 @@ def plot_results(results, save_path="results/sweep_results_corr.png"):
 
     plt.tight_layout()
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    plt.savefig(save_path, format="svg", bbox_inches="tight")
     print(f"Plot saved to {save_path}")
 
     return fig
@@ -261,7 +264,7 @@ def print_summary(results):
         f"at R_vis = {results['sensing_ranges'][max_corr_idx]:.1f}"
     )
     print(
-        f"  (Normalized: ξ/L = {results['corr_mean'][max_corr_idx] / Config.WIDTH:.3f})"
+        f"  (Normalised: ξ/L = {results['corr_mean'][max_corr_idx] / Config.WIDTH:.3f})"
     )
 
     # Find visibility where correlation starts dropping

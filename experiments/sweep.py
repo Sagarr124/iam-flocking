@@ -213,8 +213,11 @@ def export_results_csv(results, filename="results/sweep_data.csv"):
     print(f"Data exported to {filename}")
 
 
-def plot_results(results, save_path="results/sweep_results.png"):
+def plot_results(results, save_path="results/sweep_results.svg"):
     """Generate comprehensive visualization with error bars."""
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.serif'] = ['Libertinus Serif']
+
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
     sensing_ranges = results["sensing_ranges"]
@@ -252,7 +255,7 @@ def plot_results(results, save_path="results/sweep_results.png"):
         )
 
     ax1.set_xlabel("Metric Sensing Range (R_vis)")
-    ax1.set_ylabel("Giant Component Size (Normalized)")
+    ax1.set_ylabel("Giant Component Size (Normalised)")
     ax1.set_title("Flock Cohesion vs Visibility")
     ax1.legend(loc="lower right", fontsize=8)
     ax1.grid(True, alpha=0.3)
@@ -267,7 +270,7 @@ def plot_results(results, save_path="results/sweep_results.png"):
         marker="s",
         color="tab:blue",
         capsize=3,
-        label="Polarization",
+        label="Polarisation",
     )
     ax2.set_xlabel("Metric Sensing Range (R_vis)")
     ax2.set_ylabel("Order Parameter (φ)")
@@ -325,7 +328,7 @@ def plot_results(results, save_path="results/sweep_results.png"):
         )
 
     ax4.set_xlabel("Metric Sensing Range (R_vis)")
-    ax4.set_ylabel("Normalized Value")
+    ax4.set_ylabel("Normalised Value")
     ax4.set_title("Phase Transition Overview")
     ax4.legend(loc="lower right")
     ax4.grid(True, alpha=0.3)
@@ -342,7 +345,7 @@ def plot_results(results, save_path="results/sweep_results.png"):
     plt.tight_layout()
 
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    plt.savefig(save_path, format="svg", bbox_inches="tight")
     print(f"Plot saved to {save_path}")
 
     return fig
